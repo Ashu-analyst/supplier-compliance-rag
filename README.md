@@ -2,6 +2,10 @@
 
 A retrieval-augmented generation (RAG) assistant that answers questions about supplier due-diligence procedures. Every answer cites its sources, and the assistant refuses when the knowledge base doesn't contain the answer. An evaluation harness measures retrieval quality, answer faithfulness and refusal behaviour on every commit.
 
+![Architecture](docs/architecture.png)
+
+![Evaluation results](docs/eval_results.png)
+
 > The knowledge base is a set of **synthetic** SOPs for a fictional company ("Northwind Components"). The domain is supplier risk, audits, grievances and ESG data collection: the kind of process knowledge that procurement and compliance teams ask about every day.
 
 ## Why this exists
