@@ -1,0 +1,16 @@
+# API + optional local LLM (Ollama). Start: docker compose up -d
+# then pull a model once: docker compose exec ollama ollama pull llama3.1
+services:
+  rag-api:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      - OLLAMA_HOST=http://ollama:11434   # remove to use extractive mode
+      # - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}   # uncomment to use Claude instead
+    depends_on: [ollama]
+  ollama:
+    image: ollama/ollama:latest
+    ports: ["11434:11434"]
+    volumes: ["ollama:/root/.ollama"]
+volumes:
+  ollama:

@@ -1,0 +1,15 @@
+{
+  "name": "Supplier compliance Q&A (Slack/Email -> RAG API)",
+  "nodes": [
+    {"parameters": {"httpMethod": "POST", "path": "compliance-question"}, "name": "Webhook", "type": "n8n-nodes-base.webhook", "typeVersion": 2, "position": [0, 0]},
+    {"parameters": {"method": "POST", "url": "http://rag-api:8000/ask", "sendBody": true, "specifyBody": "json", "jsonBody": "={{ { \"question\": $json.body.question } }}"}, "name": "Ask RAG API", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [220, 0]},
+    {"parameters": {"conditions": {"boolean": [{"value1": "={{ $json.refused }}", "value2": true}]}}, "name": "Refused?", "type": "n8n-nodes-base.if", "typeVersion": 1, "position": [440, 0]},
+    {"parameters": {"respondWith": "json", "responseBody": "={{ { answer: $json.answer, sources: $json.citations } }}"}, "name": "Reply with answer", "type": "n8n-nodes-base.respondToWebhook", "typeVersion": 1, "position": [660, 100]},
+    {"parameters": {"respondWith": "json", "responseBody": "={{ { answer: 'Forwarded to the Compliance team.' } }}"}, "name": "Escalate to human", "type": "n8n-nodes-base.respondToWebhook", "typeVersion": 1, "position": [660, -100]}
+  ],
+  "connections": {
+    "Webhook": {"main": [[{"node": "Ask RAG API", "type": "main", "index": 0}]]},
+    "Ask RAG API": {"main": [[{"node": "Refused?", "type": "main", "index": 0}]]},
+    "Refused?": {"main": [[{"node": "Escalate to human", "type": "main", "index": 0}], [{"node": "Reply with answer", "type": "main", "index": 0}]]}
+  }
+}

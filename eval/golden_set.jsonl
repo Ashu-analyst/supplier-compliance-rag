@@ -1,0 +1,17 @@
+{"question": "Who approves a new supplier with a risk score of 55?", "expected_doc": "01_supplier_onboarding", "must_contain": ["Category Manager"]}
+{"question": "How many working days does a supplier have to complete the self-assessment questionnaire?", "expected_doc": "01_supplier_onboarding", "must_contain": ["10 working days"]}
+{"question": "What weight does country risk have in the risk score?", "expected_doc": "02_risk_scoring", "must_contain": ["30%"]}
+{"question": "By how many points can a compliance officer override a score?", "expected_doc": "02_risk_scoring", "must_contain": ["15 points"]}
+{"question": "How long does a supplier have to submit a corrective action plan?", "expected_doc": "03_high_risk_escalation", "must_contain": ["20 working days"]}
+{"question": "Can we place new purchase orders during a sourcing freeze?", "expected_doc": "03_high_risk_escalation", "must_contain": ["No new purchase orders"]}
+{"question": "How often are high risk suppliers audited on site?", "expected_doc": "04_audit_programme", "must_contain": ["12 months"]}
+{"question": "Within how many days must major audit findings be closed?", "expected_doc": "04_audit_programme", "must_contain": ["90 days"]}
+{"question": "How fast do we acknowledge a grievance report?", "expected_doc": "05_grievance_mechanism", "must_contain": ["7 days"]}
+{"question": "Are anonymous grievance reports accepted?", "expected_doc": "05_grievance_mechanism", "must_contain": ["Anonymous reports are accepted"]}
+{"question": "Which suppliers are in scope for ESG data collection?", "expected_doc": "06_esg_data_collection", "must_contain": ["80%"]}
+{"question": "What is the deadline for suppliers to send their emissions data?", "expected_doc": "06_esg_data_collection", "must_contain": ["31 March"]}
+{"question": "How long do we keep SAQ answers and risk scores?", "expected_doc": "07_data_retention", "must_contain": ["7 years"]}
+{"question": "Who can see grievance cases?", "expected_doc": "07_data_retention", "must_contain": ["Compliance team"]}
+{"question": "How much notice do we give before an audit?", "expected_doc": "08_contract_clauses", "must_contain": ["10 working days"]}
+{"question": "What is the parental leave policy for Northwind employees?", "expected_doc": null, "must_contain": []}
+{"question": "What is the price of copper next quarter?", "expected_doc": null, "must_contain": []}

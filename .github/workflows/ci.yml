@@ -1,0 +1,31 @@
+name: ci
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements.txt
+      - name: Unit + API tests
+        run: |
+          pytest -q | tee pytest.txt
+          echo "## Tests" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY; tail -1 pytest.txt >> $GITHUB_STEP_SUMMARY; echo '```' >> $GITHUB_STEP_SUMMARY
+      - name: Demo questions
+        run: |
+          echo "## Demo answers" >> $GITHUB_STEP_SUMMARY
+          for q in "Who approves a supplier with a risk score of 55?" "How often are high risk suppliers audited on site?" "What is the parental leave policy?"; do
+            echo '```' >> $GITHUB_STEP_SUMMARY; python ask.py "$q" >> $GITHUB_STEP_SUMMARY; echo '```' >> $GITHUB_STEP_SUMMARY
+          done
+      - name: Retrieval + refusal evaluation (fails if quality drops)
+        run: |
+          python eval/run_eval.py > eval_report.json
+          python - <<'PY' >> $GITHUB_STEP_SUMMARY
+          import json; r = json.load(open("eval_report.json"))
+          print("## Evaluation (17-question golden set)\n\n| Metric | Value |\n|---|---|")
+          for k in ["hit@4", "MRR", "fact_recall", "citation_rate", "refusal_accuracy"]:
+              print(f"| {k} | {r[k]} |")
+          assert r["hit@4"] >= 0.9 and r["refusal_accuracy"] >= 0.9, r
+          PY
